@@ -353,6 +353,7 @@ def inception_resnet_v2(inputs, num_classes=1001, is_training=True,
         if not num_classes:
           return net, end_points
         net = slim.flatten(net)
+        tf.add_to_collection('avg_pool', net)
         net = slim.dropout(net, dropout_keep_prob, is_training=is_training,
                            scope='Dropout')
         end_points['PreLogitsFlatten'] = net

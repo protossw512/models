@@ -98,9 +98,9 @@ def distort_color(image, color_ordering=0, fast_mode=True, scope=None):
 
 def distorted_bounding_box_crop(image,
                                 bbox,
-                                min_object_covered=0.1,
-                                aspect_ratio_range=(0.75, 1.33),
-                                area_range=(0.05, 1.0),
+                                    min_object_covered=0.36,
+                                    aspect_ratio_range=(0.95, 1.05),
+                                    area_range=(0.9, 1.0),
                                 max_attempts=100,
                                 scope=None):
   """Generates cropped_image using a one of the bboxes randomly distorted.
@@ -225,6 +225,7 @@ def preprocess_for_train(image, height, width, bbox,
 
     # Randomly flip the image horizontally.
     distorted_image = tf.image.random_flip_left_right(distorted_image)
+    distorted_image = tf.image.random_flip_up_down(distorted_image)
 
     # Randomly distort the colors. There are 1 or 4 ways to do it.
     num_distort_cases = 1 if fast_mode else 4
@@ -242,7 +243,7 @@ def preprocess_for_train(image, height, width, bbox,
 
 
 def preprocess_for_eval(image, height, width,
-                        central_fraction=0.875, scope=None):
+                        central_fraction=0.82, scope=None):
   """Prepare one image for evaluation.
 
   If height and width are specified it would output an image with that size by
